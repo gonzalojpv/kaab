@@ -11,12 +11,14 @@
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "lint:style": "stylelint ./src/**/*.{css,vue} --fix",
-    "lint:style:check": "stylelint ./src/**/*.{css,vue}",
+    "lint:style:check": "stylelint ./src/**/*.{css,vue}"
   },
   "dependencies": {
     "vue": "^3.2.37"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
     "@types/node": "^18.0.3",
     "@typescript-eslint/eslint-plugin": "^5.30.5",
     "@typescript-eslint/parser": "^5.30.5",

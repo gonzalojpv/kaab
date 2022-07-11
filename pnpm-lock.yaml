@@ -3,6 +3,8 @@ lockfileVersion: 5.4
 specifiers:
   '@types/node': ^18.0.3
   '@vitejs/plugin-vue': ^2.3.3
+  prettier: ^2.7.1
+  prettier-plugin-tailwindcss: ^0.1.12
   typescript: ^4.7.4
   vite: ^2.9.14
   vue: ^3.2.37
@@ -14,6 +16,8 @@ dependencies:
 devDependencies:
   '@types/node': 18.0.3
   '@vitejs/plugin-vue': 2.3.3_vite@2.9.14+vue@3.2.37
+  prettier: 2.7.1
+  prettier-plugin-tailwindcss: 0.1.12_prettier@2.7.1
   typescript: 4.7.4
   vite: 2.9.14
   vue-tsc: 0.38.3_typescript@4.7.4
@@ -419,6 +423,21 @@ packages:
       nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
+
+  /prettier-plugin-tailwindcss/0.1.12_prettier@2.7.1:
+    resolution: {integrity: sha512-pEZ6tppwknCeq3ObR9g8t61AhWtVRRR3I0EQNeiRrrJ3D42FJGeUDxiFc/LJRYEeAx5JOxagsF0MICwuWOJa+w==}
+    engines: {node: '>=12.17.0'}
+    peerDependencies:
+      prettier: '>=2.2.0'
+    dependencies:
+      prettier: 2.7.1
+    dev: true
+
+  /prettier/2.7.1:
+    resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    dev: true
 
   /resolve/1.22.1:
     resolution: {integrity: sha512-nBpuuYuY5jFsli/JIs1oldw6fOQCBioohqWZg/2hiaOybXOft4lonv85uDOKXdf8rhyK159cxU5cDcK/NKk8zw==}

@@ -11,7 +11,8 @@
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "lint:style": "stylelint ./src/**/*.{css,vue} --fix",
-    "lint:style:check": "stylelint ./src/**/*.{css,vue}"
+    "lint:style:check": "stylelint ./src/**/*.{css,vue}",
+    "prepare": "husky install"
   },
   "dependencies": {
     "vue": "^3.2.37"
@@ -26,6 +27,7 @@
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-vue": "^9.2.0",
+    "husky": "^8.0.1",
     "postcss-html": "^1.5.0",
     "prettier": "^2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.12",

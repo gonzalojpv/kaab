@@ -3,6 +3,7 @@ module.exports = {
   extends: [
     'eslint:recommended', // this maybe causes errors in defineEmits<{}>() ???
     'plugin:@typescript-eslint/recommended',
+    'plugin:vue/vue3-essential',
     'plugin:vue/vue3-recommended',
     'prettier',
   ],

@@ -15,5 +15,4 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 
 You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
 
-
 [Build a Vue 3 + TypeScript dev environment with Vite ](https://lobotuerto.com/notes/build-a-vue3-typescript-dev-environment-with-vite#introduction)

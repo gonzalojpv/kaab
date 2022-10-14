@@ -8,8 +8,8 @@ test('mount component', async () => {
 
   const wrapper = mount(App, {
     global: {
-      plugins: [router],
-    },
+      plugins: [router]
+    }
   })
 
   expect(wrapper.html()).toMatchSnapshot()

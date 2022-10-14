@@ -1,3 +1,3 @@
 <template>
-<div class="text-xl">Home page</div>
+  <div class="text-xl">Home page</div>
 </template>

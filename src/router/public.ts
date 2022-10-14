@@ -1,8 +1,8 @@
-const publicChildRoutes = (prop, mode = false) => [
+const publicChildRoutes = (prop: string, mode = false) => [
   {
     path: '/',
     name: `${prop}.index`,
-     meta: {
+    meta: {
       authRequired: mode,
       title: 'Campaigns',
       withHeader: true

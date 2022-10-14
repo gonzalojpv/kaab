@@ -7,6 +7,6 @@ export default defineConfig({
 
   // If you intend to serve from a subdirectory...
   vite: {
-    base: '/ui-library/',
-  },
+    base: '/ui-library/'
+  }
 })

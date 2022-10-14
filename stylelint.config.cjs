@@ -9,6 +9,6 @@ module.exports = {
     'function-no-unknown': [true, { ignoreFunctions: ['theme'] }],
     'custom-property-empty-line-before': null,
     'selector-class-pattern': null,
-    'value-keyword-case': null,
+    'value-keyword-case': null
   }
 }

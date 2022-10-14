@@ -1,13 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full bg-gray-50">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/6fc5d865fa.js"
+      crossorigin="anonymous"
+    ></script>
     <title>Vite App</title>
+    <style>
+      body {
+        background-color: white;
+      }
+
+      #loading-wrapper {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+      }
+
+      #loading-text {
+        display: block;
+        position: absolute;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        left: 50%;
+        color: rgb(20, 121, 60);
+        width: 100px;
+        height: 30px;
+        margin: -7px 0 0 -45px;
+        text-align: center;
+        font-family: 'PT Sans Narrow', sans-serif;
+        font-size: 20px;
+      }
+
+      #loading-content {
+        display: block;
+        position: absolute;
+        top: 53%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        left: 50%;
+        margin: 0;
+        width: 170px;
+        height: 170px;
+        margin: -85px 0 0 -85px;
+        border: 3px solid #f00;
+      }
+
+      #loading-content {
+        border: 3px solid transparent;
+        border-top-color: rgb(145, 163, 176);
+        border-bottom-color: rgb(145, 163, 176);
+        border-radius: 50%;
+        -webkit-animation: loader 2s linear infinite;
+        -moz-animation: loader 2s linear infinite;
+        -o-animation: loader 2s linear infinite;
+        animation: loader 2s linear infinite;
+      }
+
+      #logo {
+        height: 100px;
+        width: 100px;
+      }
+
+      @keyframes loader {
+        0% {
+          -webkit-transform: rotate(0deg);
+          -ms-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+
+        100% {
+          -webkit-transform: rotate(360deg);
+          -ms-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+    </style>
   </head>
-  <body>
-    <div id="app"></div>
+  <body class="h-full">
+    <div id="app">
+      <div id="loading-wrapper">
+        <div id="loading-text"></div>
+        <div id="loading-content"></div>
+      </div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

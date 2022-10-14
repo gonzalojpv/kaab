@@ -5,7 +5,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:vue/vue3-essential',
     'plugin:vue/vue3-recommended',
-    'prettier',
+    'prettier'
   ],
   /* globals: {
     defineEmits: 'readonly',
@@ -14,8 +14,29 @@ module.exports = {
   parser: 'vue-eslint-parser',
   parserOptions: {
     parser: '@typescript-eslint/parser',
-    sourceType: 'module',
+    sourceType: 'module'
   },
   // plugins: ['@typescript-eslint'], // might not be needed
-  rules: {},
+  rules: {
+    'vue/multi-word-component-names': [
+      'error',
+      {
+        ignores: [
+          'auth',
+          'login',
+          'signup',
+          'header',
+          'footer',
+          'list',
+          'index',
+          'detail',
+          'default',
+          '404',
+          'checkout',
+          'confirmation',
+          'receipt'
+        ]
+      }
+    ]
+  }
 }

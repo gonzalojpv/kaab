@@ -10,11 +10,36 @@ import {
 const sidebarOpen = ref(false)
 
 const navigation = [
-  { name: 'Home', href: '#', icon: 'far fa-home', current: true },
-  { name: 'History', href: '#', icon: 'far fa-clock', current: false },
-  { name: 'Balances', href: '#', icon: 'far fa-balance-scale', current: false },
-  { name: 'Checkout', href: '#', icon: 'far fa-cash-register', current: false },
-  { name: 'Reports', href: '#', icon: 'far fa-file-chart-line', current: false }
+  {
+    name: 'Home',
+    href: { name: 'dashboard.home' },
+    icon: 'far fa-home',
+    current: true
+  },
+  {
+    name: 'History',
+    href: { name: 'dashboard.home' },
+    icon: 'far fa-clock',
+    current: false
+  },
+  {
+    name: 'Balances',
+    href: { name: 'dashboard.home' },
+    icon: 'far fa-balance-scale',
+    current: false
+  },
+  {
+    name: 'Checkout',
+    href: { name: 'checkout.index' },
+    icon: 'far fa-cash-register',
+    current: false
+  },
+  {
+    name: 'Reports',
+    href: { name: 'dashboard.home' },
+    icon: 'far fa-file-chart-line',
+    current: false
+  }
 ]
 </script>
 
@@ -74,7 +99,7 @@ const navigation = [
             <div class="flex flex-shrink-0 items-center px-4">
               <img
                 class="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=cyan&shade=300"
+                src="@/assets/images/logo.png"
                 alt="Easywire logo"
               />
             </div>
@@ -83,10 +108,10 @@ const navigation = [
               aria-label="Sidebar"
             >
               <div class="space-y-1 px-2">
-                <a
+                <router-link
                   v-for="item in navigation"
                   :key="item.name"
-                  :href="item.href"
+                  :to="item.href"
                   :class="[
                     item.current
                       ? 'bg-cyan-800 text-white'
@@ -101,7 +126,7 @@ const navigation = [
                     aria-hidden="true"
                   ></i>
                   {{ item.name }}
-                </a>
+                </router-link>
               </div>
             </nav>
           </DialogPanel>
@@ -120,7 +145,7 @@ const navigation = [
       <div class="flex flex-shrink-0 items-center px-4">
         <img
           class="h-8 w-auto"
-          src="https://tailwindui.com/img/logos/mark.svg?color=cyan&shade=300"
+          src="@/assets/images/logo.png"
           alt="Easywire logo"
         />
       </div>
@@ -129,10 +154,10 @@ const navigation = [
         aria-label="Sidebar"
       >
         <div class="space-y-1 px-2">
-          <a
+          <router-link
             v-for="item in navigation"
             :key="item.name"
-            :href="item.href"
+            :to="item.href"
             :class="[
               item.current
                 ? 'bg-cyan-800 text-white'
@@ -147,7 +172,7 @@ const navigation = [
               aria-hidden="true"
             />
             {{ item.name }}
-          </a>
+          </router-link>
         </div>
       </nav>
     </div>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Header from '@/views/layouts/parts/header.vue'
+import Header from '@/views/layouts/parts/header-auth.vue'
 import Footer from '@/views/layouts/parts/footer.vue'
 
 import { useRoute } from 'vue-router'

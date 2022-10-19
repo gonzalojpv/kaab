@@ -4,7 +4,8 @@ const checkoutChildRoutes = (prop: string, mode = false) => [
     name: `${prop}.index`,
     meta: {
       authRequired: mode,
-      title: ''
+      title: 'Checkout',
+      withHeader: true
     },
     component: () => import('../views/pages/checkout/index.vue')
   }

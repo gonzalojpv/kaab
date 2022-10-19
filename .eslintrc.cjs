@@ -5,6 +5,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:vue/vue3-essential',
     'plugin:vue/vue3-recommended',
+    'plugin:prettier/recommended',
     'prettier'
   ],
   /* globals: {
@@ -34,7 +35,9 @@ module.exports = {
           '404',
           'checkout',
           'confirmation',
-          'receipt'
+          'receipt',
+          'dashboard',
+          'home'
         ]
       }
     ]

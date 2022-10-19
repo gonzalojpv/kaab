@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import Header from '@/views/layouts/parts/header.vue'
 import Footer from '@/views/layouts/parts/footer.vue'
 

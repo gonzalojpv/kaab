@@ -1,4 +1,4 @@
-const dashChildRoutes = (prop: string, mode = false) =>  [
+const dashChildRoutes = (prop: string, mode = false) => [
   {
     path: '',
     name: `${prop}.home`,

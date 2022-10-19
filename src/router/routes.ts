@@ -1,6 +1,7 @@
 import publicChildRoutes from './public'
 import authChildRoutes from './auth'
 import dashChildRoutes from './dashboard'
+import checkoutChildRoutes from './checkout'
 
 export default [
   {
@@ -15,7 +16,12 @@ export default [
   },
   {
     path: '/dashboard',
+    component: () => import('../views/layouts/dashboard.vue'),
+    children: dashChildRoutes('dashboard', true)
+  },
+  {
+    path: '/checkout',
     component: () => import('../views/layouts/default.vue'),
-    children: dashChildRoutes('dashboard', false)
+    children: checkoutChildRoutes('checkout', true)
   }
 ]

@@ -17,15 +17,9 @@ const navigation = [
     current: true
   },
   {
-    name: 'History',
-    href: { name: 'dashboard.home' },
-    icon: 'far fa-clock',
-    current: false
-  },
-  {
-    name: 'Balances',
-    href: { name: 'dashboard.home' },
-    icon: 'far fa-balance-scale',
+    name: 'Products',
+    href: { name: 'product.list' },
+    icon: 'far fa-list-alt',
     current: false
   },
   {
@@ -36,7 +30,7 @@ const navigation = [
   },
   {
     name: 'Reports',
-    href: { name: 'dashboard.home' },
+    href: { name: 'report.index' },
     icon: 'far fa-file-chart-line',
     current: false
   }

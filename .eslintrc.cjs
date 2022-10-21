@@ -37,6 +37,7 @@ module.exports = {
           'confirmation',
           'receipt',
           'dashboard',
+          'new',
           'home'
         ]
       }

@@ -1,69 +1,100 @@
 <script setup lang="ts">
-const products = [
+const people = [
   {
-    id: 1,
-    name: 'Nomad Pouch',
-    href: '#',
-    price: '$50',
-    availability: 'White and Black',
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/category-page-07-product-01.jpg',
-    imageAlt:
-      'White fabric pouch with white zipper, black zipper pull, and black elastic loop.'
-  },
-  {
-    id: 2,
-    name: 'Zip Tote Basket',
-    href: '#',
-    price: '$140',
-    availability: 'Washed Black',
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/category-page-07-product-02.jpg',
-    imageAlt:
-      'Front of tote bag with washed black canvas body, black straps, and tan leather handles and accents.'
-  },
-  {
-    id: 3,
-    name: 'Medium Stuff Satchel',
-    href: '#',
-    price: '$220',
-    availability: 'Blue',
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/category-page-07-product-03.jpg',
-    imageAlt:
-      'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.'
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    department: 'Optimization',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+    image:
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
   }
-  // More products...
+  // More people...
 ]
 </script>
 
 <template>
-  <div class="bg-white">
-    <div
-      class="mx-auto max-w-7xl overflow-hidden py-16 px-4 sm:py-24 sm:px-6 lg:px-8"
-    >
-      <div
-        class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8"
-      >
-        <a
-          v-for="product in products"
-          :key="product.id"
-          :href="product.href"
-          class="group text-sm"
+  <div class="mt-8 flex flex-col">
+    <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+        <div
+          class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg"
         >
-          <div
-            class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75"
-          >
-            <img
-              :src="product.imageSrc"
-              :alt="product.imageAlt"
-              class="h-full w-full object-cover object-center"
-            />
-          </div>
-          <h3 class="mt-4 font-medium text-gray-900">{{ product.name }}</h3>
-          <p class="italic text-gray-500">{{ product.availability }}</p>
-          <p class="mt-2 font-medium text-gray-900">{{ product.price }}</p>
-        </a>
+          <table class="min-w-full divide-y divide-gray-300">
+            <thead class="bg-gray-50">
+              <tr>
+                <th
+                  scope="col"
+                  class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                >
+                  Name
+                </th>
+                <th
+                  scope="col"
+                  class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                >
+                  Amount
+                </th>
+                <th
+                  scope="col"
+                  class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                >
+                  Status
+                </th>
+                <th
+                  scope="col"
+                  class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                >
+                  Date
+                </th>
+                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                  <span class="sr-only">Edit</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+              <tr v-for="person in people" :key="person.email">
+                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                  <div class="flex items-center">
+                    <div class="h-10 w-10 flex-shrink-0">
+                      <img
+                        class="h-10 w-10 rounded-full"
+                        :src="person.image"
+                        alt=""
+                      />
+                    </div>
+                    <div class="ml-4">
+                      <div class="font-medium text-gray-900">
+                        {{ person.name }}
+                      </div>
+                      <div class="text-gray-500">{{ person.email }}</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                  <div class="text-gray-900">{{ person.title }}</div>
+                  <div class="text-gray-500">{{ person.department }}</div>
+                </td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                  <span
+                    class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
+                    >Active</span
+                  >
+                </td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                  {{ person.role }}
+                </td>
+                <td
+                  class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
+                >
+                  <a href="#" class="text-indigo-600 hover:text-indigo-900"
+                    >Edit<span class="sr-only">, {{ person.name }}</span></a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

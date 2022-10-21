@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ProductList from '@/components/ProductList/index.vue'
+import ProductGrid from '@/components/ProductGrid/index.vue'
 
 const products = [
   {
@@ -24,7 +24,7 @@ const products = [
 
       <form class="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
         <div>
-          <ProductList />
+          <ProductGrid />
         </div>
 
         <!-- Order summary -->
@@ -74,7 +74,7 @@ const products = [
                       >
                         <span class="sr-only">Remove</span>
                         <!-- <TrashIcon class="h-5 w-5" aria-hidden="true" /> -->
-                        TrashIcon
+                        <i class="far fa-trash-alt"></i>
                       </button>
                     </div>
                   </div>
@@ -109,10 +109,6 @@ const products = [
               <div class="flex items-center justify-between">
                 <dt class="text-sm">Subtotal</dt>
                 <dd class="text-sm font-medium text-gray-900">$64.00</dd>
-              </div>
-              <div class="flex items-center justify-between">
-                <dt class="text-sm">Shipping</dt>
-                <dd class="text-sm font-medium text-gray-900">$5.00</dd>
               </div>
               <div class="flex items-center justify-between">
                 <dt class="text-sm">Taxes</dt>

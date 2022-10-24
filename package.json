@@ -27,6 +27,7 @@
     "@vuelidate/validators": "^2.0.0",
     "@vueuse/core": "^9.3.0",
     "@vueuse/head": "^0.9.6",
+    "appwrite": "^10.1.0",
     "axios": "^1.0.0",
     "big.js": "^6.2.1",
     "lodash-es": "^4.17.21",

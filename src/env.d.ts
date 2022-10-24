@@ -1,7 +1,11 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  VITE_BASE_URL: string
+  readonly VITE_BASE_URL: string
+  readonly VITE_APP_ENDPOINT: string
+  readonly VITE_APP_PROJECT: string
+  readonly VITE_APP_COLLECTION_ID: string
+  readonly VITE_APP_DATABASE_ID: string
 }
 
 declare module '*.vue' {

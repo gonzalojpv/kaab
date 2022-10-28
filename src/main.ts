@@ -11,4 +11,6 @@ import '@/assets/scss/app.scss'
 const head = createHead()
 const store = createPinia()
 
-createApp(App).use(head).use(router).use(store).mount('#app')
+const app = createApp(App).use(head).use(router).use(store)
+
+app.mount('#app')

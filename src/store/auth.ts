@@ -1,16 +1,17 @@
 import client from '@/utils/client'
 
-import type { AuthCredentials } from '@/store/models/auth.model'
+import type { AuthCredentials, UserAuthState } from '@/store/models/auth.model'
 import { Account } from 'appwrite'
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', {
-  state: () => ({
-    user: null,
-    token: null
-  }),
+  state: () =>
+    ({
+      user: null,
+      token: null
+    } as UserAuthState),
   getters: {
-    loggedIn: (state) => !!state.token
+    loggedIn: (state) => !!state.user
   },
   actions: {
     async login(credentials: AuthCredentials) {
@@ -22,6 +23,7 @@ export const useAuthStore = defineStore('auth', {
 
       return promise.then(
         (Response) => {
+          this.user = Response
           console.log('Response', Response)
           return Response
         },
@@ -30,5 +32,6 @@ export const useAuthStore = defineStore('auth', {
         }
       )
     }
-  }
+  },
+  persist: true
 })

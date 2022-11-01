@@ -15,17 +15,18 @@ const loginFormRef = ref<InstanceType<typeof AuthLoginForm> | null>(null)
 
 const onSubmit = async (form: AuthCredentials): Promise<void> => {
   try {
-    const response = await auth.login(form)
-    console.log('----', response)
+    await auth.login(form)
+    loginFormRef.value?.setTryTo(false)
+    router.push({ name: 'dashboard.home' })
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: string | any) {
+    loginFormRef.value?.setTryTo(false)
     showNotification({
       text: error,
       icon: 'success'
     })
   }
 
-  loginFormRef.value?.setTryTo(false)
 }
 </script>
 

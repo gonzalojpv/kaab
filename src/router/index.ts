@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/store/auth' 
 
 import routes from './routes'
+import { storeToRefs } from 'pinia'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,6 +10,8 @@ const router = createRouter({
 })
 
 router.beforeEach((routeTo, routeFrom, next) => {
+  const auth = useAuthStore()
+  const { loggedIn } = storeToRefs(auth)
   const redirectToLogin = () => {
     const redirectFrom: string = routeTo.fullPath
 
@@ -24,7 +28,11 @@ router.beforeEach((routeTo, routeFrom, next) => {
   // If auth isn't required for the route, just continue.
   if (!authRequired) return next()
 
-  redirectToLogin()
+  if (!loggedIn.value) {
+    redirectToLogin()
+  }
+
+  return next()
 })
 
 export default router

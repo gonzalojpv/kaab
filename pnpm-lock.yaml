@@ -31,6 +31,7 @@ specifiers:
   jsdom: ^20.0.1
   lodash-es: ^4.17.21
   pinia: ^2.0.22
+  pinia-plugin-persistedstate: ^2.3.0
   postcss: ^8.4.17
   postcss-html: ^1.5.0
   prettier: ^2.7.1
@@ -61,6 +62,7 @@ dependencies:
   big.js: 6.2.1
   lodash-es: 4.17.21
   pinia: 2.0.22_bfjwoga25wxjazzogo7o372nwq
+  pinia-plugin-persistedstate: 2.3.0_pinia@2.0.22
   sweetalert2: 11.6.5
   vue: 3.2.40
   vue-router: 4.1.5_vue@3.2.40
@@ -3547,6 +3549,17 @@ packages:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /pinia-plugin-persistedstate/2.3.0_pinia@2.0.22:
+    resolution: {integrity: sha512-K7vzt68Z3lbMDjb23Ki2vgHVBP2QFvjl7WNwzIwqY/DAkhSt8mi/z6bN/cXTst7fJjXWF0lC9NyxFKHfxWehuw==}
+    peerDependencies:
+      pinia: ^2.0.0
+    peerDependenciesMeta:
+      pinia:
+        optional: true
+    dependencies:
+      pinia: 2.0.22_bfjwoga25wxjazzogo7o372nwq
+    dev: false
 
   /pinia/2.0.22_bfjwoga25wxjazzogo7o372nwq:
     resolution: {integrity: sha512-u+b8/BC+tmvo3ACbYO2w5NfxHWFOjvvw9DQnyT0dW8aUMCPRQT5QnfZ5R5W2MzZBMTeZRMQI7V/QFbafmM9QHw==}

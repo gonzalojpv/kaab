@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import router from '@/router'
 import AuthLoginForm from '@/components/AuthLoginForm/index.vue'
+import useNotification from '@/composables/notification'
 
 import type { AuthCredentials } from '@/store/models/auth.model'
 import { ref } from 'vue'
@@ -8,14 +9,20 @@ import { useAuthStore } from '@/store/auth'
 
 const auth = useAuthStore()
 
+const { showNotification } = useNotification()
+
 const loginFormRef = ref<InstanceType<typeof AuthLoginForm> | null>(null)
 
 const onSubmit = async (form: AuthCredentials): Promise<void> => {
   try {
     const response = await auth.login(form)
     console.log('----', response)
-  } catch (error) {
-    console.log('EEEe', error)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: string | any) {
+    showNotification({
+      text: error,
+      icon: 'success'
+    })
   }
 
   loginFormRef.value?.setTryTo(false)

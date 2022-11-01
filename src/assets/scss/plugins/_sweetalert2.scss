@@ -1,0 +1,10 @@
+@import 'sweetalert2/src/variables';
+
+// TITLE
+$swal2-title-color: var(--primary) !default;
+$swal2-title-font-size: 1.875em !default;
+$swal2-title-font-weight: 600 !default;
+$swal2-title-text-align: left !default;
+
+
+@import 'sweetalert2/src/sweetalert2.scss';

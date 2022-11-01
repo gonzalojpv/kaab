@@ -23,6 +23,7 @@ export const useAuthStore = defineStore('auth', {
       return promise.then(
         (Response) => {
           console.log('Response', Response)
+          return Response
         },
         (Error) => {
           return Promise.reject(Error)

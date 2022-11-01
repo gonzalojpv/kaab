@@ -9,7 +9,7 @@ export default [
   {
     path: '/',
     component: () => import('../views/layouts/default.vue'),
-    children: publicChildRoutes('home', false)
+    children: publicChildRoutes('home', true)
   },
   {
     path: '/auth',

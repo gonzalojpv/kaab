@@ -1,7 +1,31 @@
 .form-control {
   @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm;
+
+  &.is-invalid {
+    @apply border-danger focus:ring-danger;
+  }
+
+  &:disabled {
+    @apply bg-gray-50;
+  }
+
+  &.input-group-left {
+    @apply pl-10;
+  }
+
+  &.input-group-right {
+    @apply pr-10;
+  }
 }
 
 .form-label {
   @apply block text-sm font-medium text-gray-700;
+}
+
+.input-icon {
+  @apply pointer-events-none absolute top-0 left-0 z-10 inline-flex h-12 w-10 items-center justify-center text-gray-500;
+
+  &-right {
+    @apply absolute top-0 right-0 z-10 inline-flex h-12 w-10 cursor-pointer items-center justify-center;
+  }
 }

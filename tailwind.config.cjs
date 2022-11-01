@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        danger: '#E16467',
         'lime-green': '#95f3d3',
         magenta: '#ce27a8',
         'magenta-soft': '#ed6fd1'

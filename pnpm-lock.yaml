@@ -31,6 +31,7 @@ specifiers:
   jsdom: ^20.0.1
   lodash-es: ^4.17.21
   pinia: ^2.0.22
+  pinia-plugin-persistedstate: ^2.3.0
   postcss: ^8.4.17
   postcss-html: ^1.5.0
   prettier: ^2.7.1
@@ -40,6 +41,7 @@ specifiers:
   stylelint-config-prettier: ^9.0.3
   stylelint-config-recommended-vue: ^1.4.0
   stylelint-config-standard: ^28.0.0
+  sweetalert2: ^11.6.5
   tailwindcss: ^3.1.8
   typescript: ^4.8.4
   vite: ^3.1.6
@@ -60,6 +62,8 @@ dependencies:
   big.js: 6.2.1
   lodash-es: 4.17.21
   pinia: 2.0.22_bfjwoga25wxjazzogo7o372nwq
+  pinia-plugin-persistedstate: 2.3.0_pinia@2.0.22
+  sweetalert2: 11.6.5
   vue: 3.2.40
   vue-router: 4.1.5_vue@3.2.40
 
@@ -3546,6 +3550,17 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /pinia-plugin-persistedstate/2.3.0_pinia@2.0.22:
+    resolution: {integrity: sha512-K7vzt68Z3lbMDjb23Ki2vgHVBP2QFvjl7WNwzIwqY/DAkhSt8mi/z6bN/cXTst7fJjXWF0lC9NyxFKHfxWehuw==}
+    peerDependencies:
+      pinia: ^2.0.0
+    peerDependenciesMeta:
+      pinia:
+        optional: true
+    dependencies:
+      pinia: 2.0.22_bfjwoga25wxjazzogo7o372nwq
+    dev: false
+
   /pinia/2.0.22_bfjwoga25wxjazzogo7o372nwq:
     resolution: {integrity: sha512-u+b8/BC+tmvo3ACbYO2w5NfxHWFOjvvw9DQnyT0dW8aUMCPRQT5QnfZ5R5W2MzZBMTeZRMQI7V/QFbafmM9QHw==}
     peerDependencies:
@@ -4267,6 +4282,10 @@ packages:
   /svg-tags/1.0.0:
     resolution: {integrity: sha512-ovssysQTa+luh7A5Weu3Rta6FJlFBBbInjOh722LIt6klpU2/HtdUbszju/G4devcvk8PGt7FCLv5wftu3THUA==}
     dev: true
+
+  /sweetalert2/11.6.5:
+    resolution: {integrity: sha512-4/2dD+HoGbMnemYJlY/IXhLUgVFVxLgH3dlEDLY1yufOAW9HLEI8VHmgCo4+pmXbUBlKZU/pDbSgw3wkysi8jQ==}
+    dev: false
 
   /symbol-tree/3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}

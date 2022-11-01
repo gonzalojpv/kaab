@@ -26,7 +26,6 @@ const onSubmit = async (form: AuthCredentials): Promise<void> => {
       icon: 'success'
     })
   }
-
 }
 </script>
 

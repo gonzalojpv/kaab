@@ -120,7 +120,9 @@
               class="form-control"
             ></textarea>
           </div>
-          <p class="mt-2 text-sm text-gray-500">Write a few sentences about yourself.</p>
+          <p class="mt-2 text-sm text-gray-500">
+            Write a few sentences about yourself.
+          </p>
         </div>
       </div>
     </div>

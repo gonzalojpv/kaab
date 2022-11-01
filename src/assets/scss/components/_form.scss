@@ -23,9 +23,9 @@
 }
 
 .input-icon {
-  @apply inline-flex justify-center items-center w-10 h-12 absolute top-0 left-0 z-10 pointer-events-none text-gray-500;
+  @apply pointer-events-none absolute top-0 left-0 z-10 inline-flex h-12 w-10 items-center justify-center text-gray-500;
 
   &-right {
-    @apply inline-flex justify-center items-center w-10 h-12 absolute top-0 z-10 right-0 cursor-pointer;
+    @apply absolute top-0 right-0 z-10 inline-flex h-12 w-10 cursor-pointer items-center justify-center;
   }
 }

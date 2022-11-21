@@ -4,6 +4,5 @@ export interface AuthCredentials {
 }
 
 export interface UserAuthState {
-  token: string | null
-  user: unknown
+  token: string | null | unknown
 }

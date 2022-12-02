@@ -1,8 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import usAuth from '@/composables/auth'
+
+import { ref, onMounted } from 'vue'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { useAccountStore } from '@/stores/account'
+import { storeToRefs } from 'pinia'
+
+const account = useAccountStore()
+
+const { getCurrentUser } = storeToRefs(account)
+const { onLogout } = usAuth()
 
 const sidebarOpen = ref(false)
+
+onMounted(() => {
+  console.log('getCurrentUser', getCurrentUser.value)
+})
 </script>
 
 <template>
@@ -55,9 +68,10 @@ const sidebarOpen = ref(false)
                 alt=""
               />
               <span
+                v-if="getCurrentUser"
                 class="ml-3 hidden text-sm font-medium text-gray-700 lg:block"
-                ><span class="sr-only">Open user menu for </span>Emilia
-                Birch</span
+                ><span class="sr-only">Open user menu for </span
+                >{{ getCurrentUser.name }}</span
               >
               <i class="far fa-chevron-down ml-1"></i>
             </MenuButton>
@@ -90,6 +104,7 @@ const sidebarOpen = ref(false)
                     active ? 'bg-gray-100' : '',
                     'block px-4 py-2 text-sm text-gray-700'
                   ]"
+                  @click.prevent="onLogout"
                   >Logout</a
                 >
               </MenuItem>

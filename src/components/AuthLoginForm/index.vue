@@ -3,7 +3,7 @@ import useVuelidate from '@vuelidate/core'
 
 import { computed, reactive, ref } from 'vue'
 import { required, email } from '@vuelidate/validators'
-import { AuthCredentials } from '@/store/models/auth.model'
+import { AuthCredentials } from '@/stores/models/auth.model'
 
 const emit = defineEmits<{
   (event: 'submit', form: AuthCredentials): void

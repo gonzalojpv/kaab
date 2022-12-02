@@ -3,11 +3,13 @@ import router from '@/router'
 import AuthLoginForm from '@/components/AuthLoginForm/index.vue'
 import useNotification from '@/composables/notification'
 
-import type { AuthCredentials } from '@/store/models/auth.model'
+import type { AuthCredentials } from '@/stores/models/auth.model'
 import { ref } from 'vue'
-import { useAuthStore } from '@/store/auth'
+import { useAuthStore } from '@/stores/auth'
+import { useAccountStore } from '@/stores/account'
 
 const auth = useAuthStore()
+const account = useAccountStore()
 
 const { showNotification } = useNotification()
 
@@ -17,6 +19,7 @@ const onSubmit = async (form: AuthCredentials): Promise<void> => {
   try {
     await auth.login(form)
     loginFormRef.value?.setTryTo(false)
+    await account.fetchAccount()
     router.push({ name: 'dashboard.home' })
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: string | any) {

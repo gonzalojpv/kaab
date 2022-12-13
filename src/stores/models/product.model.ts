@@ -1,11 +1,19 @@
 export interface Product {
   name: string
-  unitPrice: number
-  price: number
-  suggestedPrice: number
+  brand?: string
   quantity: number
-  category: string
+  price: number
   code: string
   barCode: string
-  description: string
+  priceWithoutTax: number
+  priceWithTax: number
+  priceWithoutTaxUnitary: number
+  priceWithTaxUnitary: number
+  pricePublic: number
+  pricePublicUnitary: number
+  revenue: number
+  stock: number
+  link?: string
+  photo?: string
+  tony?: string
 }

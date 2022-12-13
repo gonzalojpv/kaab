@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import usAuth from '@/composables/auth'
 
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { useAccountStore } from '@/stores/account'
 import { storeToRefs } from 'pinia'
@@ -12,10 +12,6 @@ const { getCurrentUser } = storeToRefs(account)
 const { onLogout } = usAuth()
 
 const sidebarOpen = ref(false)
-
-onMounted(() => {
-  console.log('getCurrentUser', getCurrentUser.value)
-})
 </script>
 
 <template>

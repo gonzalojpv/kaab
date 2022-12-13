@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
+import useProduct from '@/composables/product'
 
 import type { Product as BaseProps } from '@/stores/models/product.model'
 import { reactive, computed } from 'vue'
 import { required } from '@vuelidate/validators'
+import { productStore } from '@/stores/product'
 
 interface Props extends BaseProps {
   name: string
@@ -11,24 +13,29 @@ interface Props extends BaseProps {
 
 const form: Props = reactive({
   name: '',
-  unitPrice: 0,
+  quantity: 1,
   price: 0,
-  suggestedPrice: 0,
-  quantity: 0,
-  category: '',
   code: '',
   barCode: '',
-  description: ''
+  stock: 0,
+  pricePublicUnitary: 0,
+  pricePublic: 0,
+  priceWithTaxUnitary: 0,
+  priceWithoutTaxUnitary: 0,
+  priceWithTax: 0,
+  priceWithoutTax: 0,
+  revenue: 0
 })
+
+const { calculatePrices } = useProduct()
+const product = productStore()
 
 const rules = computed((): object => {
   return {
     name: { required },
-    unitPrice: { required },
-    price: { required },
-    suggestedPrice: { required },
+    priceWithoutTax: { required },
+    pricePublic: { required },
     quantity: { required },
-    category: { required },
     code: { required },
     barCode: { required }
   }
@@ -37,7 +44,41 @@ const rules = computed((): object => {
 const v$ = useVuelidate(rules, form)
 
 const onSubmit = () => {
-  console.log('onSubmit')
+  v$.value.$touch()
+
+  if (!v$.value.$invalid) {
+    product.createProduct({ ...form })
+    console.log('onSubmit')
+  }
+}
+
+const handlePrices = () => {
+  const result = calculatePrices({
+    quantity: form.quantity,
+    price: form.priceWithoutTax
+  })
+  console.log('result', result)
+  const {
+    pricePublic,
+    priceWithTax,
+    priceWithoutTaxUnitary,
+    priceWithTaxUnitary,
+    pricePublicUnitary,
+    revenue
+  } = result
+
+  form.pricePublic = pricePublic
+  form.priceWithTax = priceWithTax
+  form.priceWithoutTaxUnitary = priceWithoutTaxUnitary
+  form.priceWithTaxUnitary = priceWithTaxUnitary
+  form.pricePublicUnitary = pricePublicUnitary
+  form.revenue = revenue
+
+  if (form.quantity > 1) {
+    form.price = pricePublicUnitary
+  } else {
+    form.price = pricePublic
+  }
 }
 </script>
 
@@ -72,85 +113,6 @@ const onSubmit = () => {
           </div>
         </div>
         <!-- /.Name -->
-        <!-- unitPrice -->
-        <div>
-          <label for="unitPrice" class="form-label">Price Unity</label>
-          <div class="mt-1">
-            <input
-              id="unitPrice"
-              v-model="form.unitPrice"
-              type="number"
-              name="unitPrice"
-              min="0"
-              step="0.1"
-              autocomplete="unit-price"
-              class="form-control"
-              :class="{ 'is-invalid': v$.unitPrice.$errors.length }"
-              @blur="v$.unitPrice.$touch()"
-            />
-            <p
-              v-for="err of v$.unitPrice.$errors"
-              v-show="v$.unitPrice.$error"
-              :key="err.$uid"
-              class="invalid-feedback"
-              role="alert"
-            >
-              {{ err.$message }}
-            </p>
-          </div>
-        </div>
-        <!-- /.unitPrice -->
-
-        <div>
-          <label for="last-name" class="form-label">Price</label>
-          <div class="mt-1">
-            <input
-              id="price"
-              v-model="form.price"
-              type="text"
-              name="price"
-              autocomplete="price"
-              class="form-control"
-              :class="{ 'is-invalid': v$.price.$errors.length }"
-              @blur="v$.price.$touch()"
-            />
-            <p
-              v-for="err of v$.price.$errors"
-              v-show="v$.price.$error"
-              :key="err.$uid"
-              class="invalid-feedback"
-              role="alert"
-            >
-              {{ err.$message }}
-            </p>
-          </div>
-        </div>
-        <!-- suggestedPrice -->
-        <div>
-          <label for="price" class="form-label">Suggested price</label>
-          <div class="mt-1">
-            <input
-              id="price"
-              v-model="form.suggestedPrice"
-              type="text"
-              name="price"
-              autocomplete="price"
-              class="form-control"
-              :class="{ 'is-invalid': v$.suggestedPrice.$errors.length }"
-              @blur="v$.suggestedPrice.$touch()"
-            />
-            <p
-              v-for="err of v$.suggestedPrice.$errors"
-              v-show="v$.suggestedPrice.$error"
-              :key="err.$uid"
-              class="invalid-feedback"
-              role="alert"
-            >
-              {{ err.$message }}
-            </p>
-          </div>
-        </div>
-        <!-- /.suggestedPrice -->
         <!-- quantity -->
         <div>
           <label for="quantity" class="form-label">Quantity</label>
@@ -164,6 +126,7 @@ const onSubmit = () => {
               class="form-control"
               :class="{ 'is-invalid': v$.quantity.$errors.length }"
               @blur="v$.quantity.$touch()"
+              @input="handlePrices"
             />
             <p
               v-for="err of v$.quantity.$errors"
@@ -177,24 +140,161 @@ const onSubmit = () => {
           </div>
         </div>
         <!-- /.quantity -->
-        <!-- category -->
+        <!-- priceWithoutTax -->
         <div>
-          <label for="category" class="form-label">Categories</label>
+          <label for="last-name" class="form-label">Price without Tax</label>
           <div class="mt-1">
-            <select
-              id="category"
-              v-model="form.category"
-              name="category"
-              autocomplete="category-name"
+            <input
+              id="price"
+              v-model="form.priceWithoutTax"
+              type="text"
+              name="price"
+              autocomplete="price"
               class="form-control"
+              :class="{ 'is-invalid': v$.priceWithoutTax.$errors.length }"
+              @blur="v$.priceWithoutTax.$touch()"
+              @input="handlePrices"
+            />
+            <p
+              v-for="err of v$.priceWithoutTax.$errors"
+              v-show="v$.priceWithoutTax.$error"
+              :key="err.$uid"
+              class="invalid-feedback"
+              role="alert"
             >
-              <option>United States</option>
-              <option>Canada</option>
-              <option>Mexico</option>
-            </select>
+              {{ err.$message }}
+            </p>
           </div>
         </div>
-        <!-- /.category -->
+        <!-- /.priceWithoutTax -->
+        <!-- priceWithTax -->
+        <div>
+          <label for="unitPrice" class="form-label">priceWithTax</label>
+          <div class="mt-1">
+            <input
+              id="unitPrice"
+              v-model="form.priceWithTax"
+              type="number"
+              name="unitPrice"
+              min="0"
+              step="0.1"
+              autocomplete="unit-price"
+              class="form-control"
+              readonly
+            />
+          </div>
+        </div>
+        <!-- /.priceWithTax -->
+        <!-- priceWithoutTaxUnitary -->
+        <div>
+          <label for="unitPrice" class="form-label"
+            >priceWithoutTaxUnitary</label
+          >
+          <div class="mt-1">
+            <input
+              id="unitPrice"
+              v-model="form.priceWithoutTaxUnitary"
+              type="number"
+              name="unitPrice"
+              min="0"
+              step="0.1"
+              autocomplete="unit-price"
+              class="form-control"
+              readonly
+            />
+          </div>
+        </div>
+        <!-- /.priceWithoutTaxUnitary -->
+        <!-- priceWithTaxUnitary -->
+        <div>
+          <label for="price" class="form-label">priceWithTaxUnitary</label>
+          <div class="mt-1">
+            <input
+              id="price"
+              v-model="form.priceWithTaxUnitary"
+              type="text"
+              name="price"
+              autocomplete="price"
+              class="form-control"
+              readonly
+            />
+          </div>
+        </div>
+        <!-- /.priceWithTaxUnitary -->
+        <!-- pricePublic -->
+        <div>
+          <label for="price" class="form-label">Public price</label>
+          <div class="mt-1">
+            <input
+              id="price"
+              v-model="form.pricePublic"
+              type="text"
+              name="price"
+              autocomplete="price"
+              class="form-control"
+              :class="{ 'is-invalid': v$.pricePublic.$errors.length }"
+              @blur="v$.pricePublic.$touch()"
+            />
+            <p
+              v-for="err of v$.pricePublic.$errors"
+              v-show="v$.pricePublic.$error"
+              :key="err.$uid"
+              class="invalid-feedback"
+              role="alert"
+            >
+              {{ err.$message }}
+            </p>
+          </div>
+        </div>
+        <!-- /.pricePublic -->
+        <!-- pricePublicUnitary -->
+        <div>
+          <label for="price" class="form-label">pricePublicUnitary</label>
+          <div class="mt-1">
+            <input
+              id="price"
+              v-model="form.pricePublicUnitary"
+              type="text"
+              name="price"
+              autocomplete="price"
+              class="form-control"
+              readonly
+            />
+          </div>
+        </div>
+        <!-- /.pricePublic -->
+        <!-- revenue -->
+        <div>
+          <label for="price" class="form-label">revenue</label>
+          <div class="mt-1">
+            <input
+              id="price"
+              v-model="form.revenue"
+              type="text"
+              name="price"
+              autocomplete="price"
+              class="form-control"
+              readonly
+            />
+          </div>
+        </div>
+        <!-- /.revenue -->
+        <!-- price -->
+        <div>
+          <label for="price" class="form-label">price</label>
+          <div class="mt-1">
+            <input
+              id="price"
+              v-model="form.price"
+              type="text"
+              name="price"
+              autocomplete="price"
+              class="form-control"
+              readonly
+            />
+          </div>
+        </div>
+        <!-- /.price -->
         <!-- Code -->
         <div>
           <label for="code" class="form-label">Code</label>
@@ -228,26 +328,11 @@ const onSubmit = () => {
             />
           </div>
         </div>
-        <!-- description -->
-        <div class="sm:col-span-2">
-          <label for="phone" class="form-label">Description</label>
-          <div class="mt-1">
-            <textarea
-              id="about"
-              v-model="form.description"
-              name="about"
-              rows="3"
-              class="form-control"
-            ></textarea>
-          </div>
-          <p class="mt-2 text-sm text-gray-500">
-            Write a few sentences about yourself.
-          </p>
-        </div>
-        <!-- /.description -->
 
         <div class="text-right sm:col-span-2">
-          <button type="submit" class="btn">Create</button>
+          <button :disabled="v$.$invalid" type="submit" class="btn">
+            Create
+          </button>
         </div>
       </div>
     </div>

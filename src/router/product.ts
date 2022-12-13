@@ -9,7 +9,7 @@ const productChildRoutes = (prop: string, mode = false) => [
     component: () => import('../views/pages/product/index.vue')
   },
   {
-    path: '',
+    path: 'list',
     name: `${prop}.list`,
     meta: {
       authRequired: mode,
@@ -18,7 +18,7 @@ const productChildRoutes = (prop: string, mode = false) => [
     component: () => import('../views/pages/product/list.vue')
   },
   {
-    path: '',
+    path: 'new',
     name: `${prop}.new`,
     meta: {
       authRequired: mode,

@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
 import useProduct from '@/composables/product'
+import router from '@/router'
 
 import type { Product as BaseProps } from '@/stores/models/product.model'
-import { reactive, computed } from 'vue'
+import { reactive, computed, ref } from 'vue'
 import { required } from '@vuelidate/validators'
-import { productStore } from '@/stores/product'
+import { useProductStore } from '@/stores/product'
+import useNotification from '@/composables/notification'
 
 interface Props extends BaseProps {
   name: string
@@ -27,8 +29,11 @@ const form: Props = reactive({
   revenue: 0
 })
 
+const { showNotification } = useNotification()
 const { calculatePrices } = useProduct()
-const product = productStore()
+const product = useProductStore()
+
+const toTry = ref<boolean>(false)
 
 const rules = computed((): object => {
   return {
@@ -41,14 +46,30 @@ const rules = computed((): object => {
   }
 })
 
+const buttonText = computed(() => {
+  if (toTry.value) {
+    return 'Creating...'
+  }
+
+  return 'Create'
+})
+
 const v$ = useVuelidate(rules, form)
 
-const onSubmit = () => {
+const onSubmit = async () => {
   v$.value.$touch()
 
   if (!v$.value.$invalid) {
-    product.createProduct({ ...form })
-    console.log('onSubmit')
+    toTry.value = true
+    await product.createProduct({ ...form })
+    toTry.value = false
+    showNotification({
+      text: 'Created',
+      icon: 'success',
+      didClose: () => {
+        router.push({ name: 'product.list' })
+      }
+    })
   }
 }
 
@@ -330,8 +351,8 @@ const handlePrices = () => {
         </div>
 
         <div class="text-right sm:col-span-2">
-          <button :disabled="v$.$invalid" type="submit" class="btn">
-            Create
+          <button :disabled="v$.$invalid || toTry" type="submit" class="btn">
+            {{ buttonText }}
           </button>
         </div>
       </div>

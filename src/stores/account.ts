@@ -20,7 +20,6 @@ export const useAccountStore = defineStore('account', {
 
       return promise.then(
         (Response) => {
-          console.log('Response', Response)
           this.user = Response
           return Response
         },

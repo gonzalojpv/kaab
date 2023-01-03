@@ -9,12 +9,20 @@ export default function () {
 
   const calculatePrices = (data: PropsPrice) => {
     const priceWithoutTax = Number(data.price)
-    const priceWithTax = priceWithoutTax * tax + priceWithoutTax
-    const priceWithoutTaxUnitary = priceWithoutTax / data.quantity
-    const priceWithTaxUnitary = priceWithoutTax * tax + priceWithoutTaxUnitary
-    const revenue = priceWithTaxUnitary * percent
-    const pricePublicUnitary = Number(priceWithTaxUnitary) + Number(revenue)
-    const pricePublic = pricePublicUnitary * data.quantity
+    const priceWithTax = Number(
+      (priceWithoutTax * tax + priceWithoutTax).toFixed(2)
+    )
+    const priceWithoutTaxUnitary = Number(
+      (priceWithoutTax / data.quantity).toFixed(2)
+    )
+    const priceWithTaxUnitary = Number(
+      (priceWithoutTaxUnitary * tax + priceWithoutTaxUnitary).toFixed(2)
+    )
+    const revenue = Number((priceWithTaxUnitary * percent).toFixed(2))
+    const pricePublicUnitary = Number(
+      (priceWithTaxUnitary + revenue).toFixed(2)
+    )
+    const pricePublic = Number((pricePublicUnitary * data.quantity).toFixed(2))
 
     return {
       priceWithoutTax,

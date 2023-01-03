@@ -1,5 +1,17 @@
 <script setup lang="ts">
 import ProductList from '@/components/ProductList/index.vue'
+
+import { useProductStore } from '@/stores/product';
+import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
+
+const product = useProductStore()
+
+const { getAllProducts } = storeToRefs(product)
+
+onMounted(() => {
+  product.fetchProducts()
+})
 </script>
 
 <template>
@@ -22,6 +34,6 @@ import ProductList from '@/components/ProductList/index.vue'
         </router-link>
       </div>
     </div>
-    <ProductList />
+    <ProductList :products="getAllProducts || []" />
   </div>
 </template>

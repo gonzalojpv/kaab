@@ -1,4 +1,10 @@
 <script setup lang="ts">
+import type { Product as BaseProps } from '@/stores/models/product.model'
+
+defineProps<{
+  products: BaseProps[]
+}>()
+
 const people = [
   {
     name: 'Lindsay Walton',
@@ -33,19 +39,19 @@ const people = [
                   scope="col"
                   class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                 >
-                  Amount
+                  Price
                 </th>
                 <th
                   scope="col"
                   class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                 >
-                  Status
+                  Stock
                 </th>
                 <th
                   scope="col"
                   class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                 >
-                  Date
+                  Brand
                 </th>
                 <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
                   <span class="sr-only">Edit</span>
@@ -53,42 +59,47 @@ const people = [
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
-              <tr v-for="person in people" :key="person.email">
+              <tr v-for="product in products" :key="product.$id">
                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                   <div class="flex items-center">
                     <div class="h-10 w-10 flex-shrink-0">
                       <img
+                        v-if="product.photo"
                         class="h-10 w-10 rounded-full"
-                        :src="person.image"
+                        :src="product.photo"
                         alt=""
                       />
                     </div>
                     <div class="ml-4">
                       <div class="font-medium text-gray-900">
-                        {{ person.name }}
+                        {{ product.name }}
                       </div>
-                      <div class="text-gray-500">{{ person.email }}</div>
+                      <div class="text-gray-500">{{ product.email }}</div>
                     </div>
                   </div>
                 </td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                  <div class="text-gray-900">{{ person.title }}</div>
-                  <div class="text-gray-500">{{ person.department }}</div>
+                  <div class="text-gray-900">{{ product.price }}</div>
                 </td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                   <span
-                    class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
-                    >Active</span
+                    :class="{
+                      'bg-green-100 text-green-800': !!product.stock,
+                      'bg-red-100 text-red-800': product.stock === 0
+                    }"
+                    class="inline-flex rounded-full px-2 text-xs font-semibold leading-5"
                   >
+                    {{ product.stock }}
+                  </span>
                 </td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                  {{ person.role }}
+                  {{ product.brand }}
                 </td>
                 <td
                   class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
                 >
                   <a href="#" class="text-indigo-600 hover:text-indigo-900"
-                    >Edit<span class="sr-only">, {{ person.name }}</span></a
+                    >Edit<span class="sr-only">, {{ product.name }}</span></a
                   >
                 </td>
               </tr>

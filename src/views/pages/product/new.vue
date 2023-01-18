@@ -2,10 +2,11 @@
 import useVuelidate from '@vuelidate/core'
 import useProduct from '@/composables/product'
 import router from '@/router'
+import BarcodeGenerator from '@/components/BarcodeGenerator/index.vue'
 
 import type { Product as BaseProps } from '@/stores/models/product.model'
 import { reactive, computed, ref } from 'vue'
-import { required } from '@vuelidate/validators'
+import { required, integer } from '@vuelidate/validators'
 import { useProductStore } from '@/stores/product'
 import useNotification from '@/composables/notification'
 
@@ -19,7 +20,7 @@ const form: Props = reactive({
   price: 0,
   code: '',
   barCode: '',
-  stock: 0,
+  stock: 1,
   pricePublicUnitary: 0,
   pricePublic: 0,
   priceWithTaxUnitary: 0,
@@ -34,6 +35,8 @@ const { calculatePrices } = useProduct()
 const product = useProductStore()
 
 const toTry = ref<boolean>(false)
+let barcode: string
+let interval: ReturnType<typeof setInterval>
 
 const rules = computed((): object => {
   return {
@@ -42,7 +45,8 @@ const rules = computed((): object => {
     pricePublic: { required },
     quantity: { required },
     code: { required },
-    barCode: { required }
+    barCode: { required },
+    stock: { required, integer }
   }
 })
 
@@ -101,6 +105,21 @@ const handlePrices = () => {
     form.price = pricePublic
   }
 }
+
+document.addEventListener('keydown', (evt) => {
+  console.log('addEventListener', evt)
+
+  if (interval) clearInterval(interval)
+
+  if (evt.code == 'Enter') {
+    if (barcode) form.barCode = barcode
+    barcode = ''
+    return
+  }
+
+  if (evt.key != 'Shift') barcode += evt.key
+  interval = setInterval(() => (barcode = ''), 20)
+})
 </script>
 
 <template>
@@ -134,6 +153,9 @@ const handlePrices = () => {
           </div>
         </div>
         <!-- /.Name -->
+        <div v-if="form.barCode" class="text-center">
+          <BarcodeGenerator :value="form.barCode" />
+        </div>
         <!-- quantity -->
         <div>
           <label for="quantity" class="form-label">Quantity</label>
@@ -335,21 +357,47 @@ const handlePrices = () => {
         <!-- /.Code -->
 
         <div>
-          <label for="postal-code" class="form-label">Bar code</label>
+          <label for="bar-code" class="form-label">Bar code</label>
           <div class="mt-1">
             <input
-              id="postal-code"
+              id="bar-code"
               v-model="form.barCode"
               type="text"
-              name="postal-code"
-              autocomplete="postal-code"
+              name="bar-code"
+              readonly
+              autocomplete="bar-code"
               class="form-control"
               :class="{ 'is-invalid': v$.barCode.$errors.length }"
               @blur="v$.barCode.$touch()"
             />
           </div>
         </div>
-
+        <!-- stock -->
+        <div>
+          <label for="stock" class="form-label">Stock</label>
+          <div class="mt-1">
+            <input
+              id="stock"
+              v-model="form.stock"
+              type="number"
+              name="stock"
+              autocomplete="stock"
+              class="form-control"
+              :class="{ 'is-invalid': v$.stock.$errors.length }"
+              @blur="v$.stock.$touch()"
+            />
+            <p
+              v-for="err of v$.stock.$errors"
+              v-show="v$.stock.$error"
+              :key="err.$uid"
+              class="invalid-feedback"
+              role="alert"
+            >
+              {{ err.$message }}
+            </p>
+          </div>
+        </div>
+        <!-- /.stock -->
         <div class="text-right sm:col-span-2">
           <button :disabled="v$.$invalid || toTry" type="submit" class="btn">
             {{ buttonText }}

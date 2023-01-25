@@ -84,7 +84,7 @@ const handlePrices = () => {
     quantity: form.quantity,
     price: form.priceWithoutTax
   })
-  console.log('result', result)
+
   const {
     pricePublic,
     priceWithTax,
@@ -109,8 +109,6 @@ const handlePrices = () => {
 }
 
 document.addEventListener('keydown', (evt) => {
-  console.log('addEventListener', evt)
-
   if (interval) clearInterval(interval)
 
   if (evt.code == 'Enter') {

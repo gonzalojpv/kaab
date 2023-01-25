@@ -33,7 +33,6 @@ export const useProductStore = defineStore('product', {
 
       return promise.then(
         (Response) => {
-          console.log('createProduct', Response) // Success
           return Response
         },
         (Error) => {
@@ -49,7 +48,6 @@ export const useProductStore = defineStore('product', {
       )
       return promise.then(
         (Response) => {
-          console.log('fetchProducts', Response) // Success
           this.products = Response.documents
           return Response
         },

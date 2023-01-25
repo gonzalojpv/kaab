@@ -8,7 +8,6 @@ const props = defineProps<{
 
 const root = ref<HTMLElement | null>(null)
 const generateBarcode = () => {
-  console.log('generateBarcode', String(props.value))
   const aux = String(props.value)
   const divDOM: HTMLElement | null = document.getElementById('info')
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
@@ -17,7 +16,6 @@ const generateBarcode = () => {
   svg.className.baseVal = 'barcode'
   divDOM.appendChild(svg)
 
-  console.log(document.querySelector('.barcode'))
   JsBarcode('.barcode').init()
 }
 

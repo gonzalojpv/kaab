@@ -7,6 +7,7 @@ interface SwalProps {
   title: string
   text: string
   textButton: string
+  didClose?(): void
 }
 
 const defaults: Pick<SwalProps, 'icon' | 'title' | 'textButton'> = {
@@ -25,7 +26,8 @@ export default function () {
       title: props.title,
       text: props.text,
       showConfirmButton: true,
-      confirmButtonText: props.textButton
+      confirmButtonText: props.textButton,
+      didClose: props.didClose
     })
   }
 

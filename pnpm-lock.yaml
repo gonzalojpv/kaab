@@ -50,6 +50,7 @@ specifiers:
   vue: '3'
   vue-eslint-parser: ^9.1.0
   vue-router: ^4.1.5
+  vue-select: 4.0.0-beta.6
   vue-tsc: ^0.40.13
 
 dependencies:
@@ -68,6 +69,7 @@ dependencies:
   sweetalert2: 11.6.5
   vue: 3.2.40
   vue-router: 4.1.5_vue@3.2.40
+  vue-select: 4.0.0-beta.6_vue@3.2.40
 
 devDependencies:
   '@commitlint/cli': 17.1.2
@@ -4783,6 +4785,14 @@ packages:
       vue: ^3.2.0
     dependencies:
       '@vue/devtools-api': 6.4.3
+      vue: 3.2.40
+    dev: false
+
+  /vue-select/4.0.0-beta.6_vue@3.2.40:
+    resolution: {integrity: sha512-K+zrNBSpwMPhAxYLTCl56gaMrWZGgayoWCLqe5rWwkB8aUbAUh7u6sXjIR7v4ckp2WKC7zEEUY27g6h1MRsIHw==}
+    peerDependencies:
+      vue: 3.x
+    dependencies:
       vue: 3.2.40
     dev: false
 

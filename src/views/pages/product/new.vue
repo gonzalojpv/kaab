@@ -4,12 +4,16 @@ import useProduct from '@/composables/product'
 import router from '@/router'
 import BarcodeGenerator from '@/components/BarcodeGenerator/index.vue'
 import ProductCard from '@/components/ProductCard/index.vue'
+import vSelect from 'vue-select'
 
 import type { Product as BaseProps } from '@/stores/models/product.model'
-import { reactive, computed, ref } from 'vue'
+import type { Brand } from '@/stores/models/brand.model'
+import { reactive, computed, ref, onMounted } from 'vue'
 import { required, integer } from '@vuelidate/validators'
 import { useProductStore } from '@/stores/product'
+import { useBrandStore } from '@/stores/brand'
 import useNotification from '@/composables/notification'
+import { storeToRefs } from 'pinia'
 
 interface Props extends BaseProps {
   name: string
@@ -29,12 +33,16 @@ const form: Props = reactive({
   priceWithTax: 0,
   priceWithoutTax: 0,
   revenue: 0,
-  photo: ''
+  photo: '',
+  brand: ''
 })
 
+const product = useProductStore()
+const brandStore = useBrandStore()
+
+const { getAllBrands } = storeToRefs(brandStore)
 const { showNotification } = useNotification()
 const { calculatePrices } = useProduct()
-const product = useProductStore()
 
 const toTry = ref<boolean>(false)
 let barcode: string
@@ -67,15 +75,19 @@ const onSubmit = async () => {
 
   if (!v$.value.$invalid) {
     toTry.value = true
-    await product.createProduct({ ...form })
-    toTry.value = false
-    showNotification({
-      text: 'Created',
-      icon: 'success',
-      didClose: () => {
-        router.push({ name: 'product.list' })
-      }
-    })
+    try {
+      await product.createProduct({ ...form })
+      toTry.value = false
+      showNotification({
+        text: 'Created',
+        icon: 'success',
+        didClose: () => {
+          router.push({ name: 'product.list' })
+        }
+      })
+    } catch (error) {
+      toTry.value = false
+    }
   }
 }
 
@@ -109,6 +121,7 @@ const handlePrices = () => {
 }
 
 document.addEventListener('keydown', (evt) => {
+  console.log('evt, evt')
   if (interval) clearInterval(interval)
 
   if (evt.code == 'Enter') {
@@ -119,6 +132,10 @@ document.addEventListener('keydown', (evt) => {
 
   if (evt.key != 'Shift') barcode += evt.key
   interval = setInterval(() => (barcode = ''), 20)
+})
+
+onMounted(() => {
+  brandStore.fetchBrands()
 })
 </script>
 
@@ -335,6 +352,21 @@ document.addEventListener('keydown', (evt) => {
               </div>
             </div>
             <!-- /.photo -->
+            <!-- Brand -->
+            <div>
+              <label for="stock" class="form-label">Brand</label>
+              <div class="mt-1">
+                <vSelect
+                  v-model="form.brand"
+                  :clearable="false"
+                  class="mb-3"
+                  :options="getAllBrands"
+                  label="name"
+                  :reduce="(option: Brand) => option.name"
+                />
+              </div>
+            </div>
+            <!-- /.Brand -->
             <div class="text-right sm:col-span-2">
               <button
                 :disabled="v$.$invalid || toTry"

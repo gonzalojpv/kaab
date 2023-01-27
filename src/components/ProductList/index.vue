@@ -4,19 +4,6 @@ import type { Product as BaseProps } from '@/stores/models/product.model'
 defineProps<{
   products: BaseProps[]
 }>()
-
-const people = [
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    department: 'Optimization',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-    image:
-      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-  }
-  // More people...
-]
 </script>
 
 <template>
@@ -54,6 +41,7 @@ const people = [
                   Brand
                 </th>
                 <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                  <span class="sr-only">View</span>
                   <span class="sr-only">Edit</span>
                 </th>
               </tr>
@@ -98,8 +86,21 @@ const people = [
                 <td
                   class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
                 >
-                  <a href="#" class="text-indigo-600 hover:text-indigo-900"
-                    >Edit<span class="sr-only">, {{ product.name }}</span></a
+                  <router-link
+                    class="text-indigo-600 hover:text-indigo-900"
+                    :to="{
+                      name: 'product.edit',
+                      params: { productId: product.$id }
+                    }"
+                    >Edit</router-link
+                  >
+                  <router-link
+                    class="text-indigo-600 hover:text-indigo-900"
+                    :to="{
+                      name: 'product.detail',
+                      params: { productId: product.$id }
+                    }"
+                    >View</router-link
                   >
                 </td>
               </tr>

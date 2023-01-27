@@ -25,6 +25,24 @@ const productChildRoutes = (prop: string, mode = false) => [
       title: ''
     },
     component: () => import('../views/pages/product/new.vue')
+  },
+  {
+    path: ':productId/detail',
+    name: `${prop}.detail`,
+    meta: {
+      authRequired: mode,
+      title: ''
+    },
+    component: () => import('../views/pages/product/detail.vue')
+  },
+  {
+    path: ':productId/edit',
+    name: `${prop}.edit`,
+    meta: {
+      authRequired: mode,
+      title: ''
+    },
+    component: () => import('../views/pages/product/edit.vue')
   }
 ]
 

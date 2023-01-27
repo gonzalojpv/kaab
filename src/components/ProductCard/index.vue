@@ -2,7 +2,7 @@
 interface Props {
   name: string
   price: number
-  photo: string
+  photo?: string
   description: string
   priceWithoutTax: number
   priceWithTax: number
@@ -19,8 +19,9 @@ withDefaults(defineProps<Props>(), {
   description: ''
 })
 
-const setAltImg = (event) => {
-  event.target.src = 'https://via.placeholder.com/192x288.png'
+const setAltImg = (event: Event) => {
+  const target = event.target as HTMLImageElement
+  target.src = 'https://via.placeholder.com/192x288.png'
 }
 </script>
 <template>

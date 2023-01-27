@@ -1,8 +1,12 @@
 .form-control {
-  @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm;
+  @apply block w-full h-12 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm;
 
   &.is-invalid {
     @apply border-danger focus:ring-danger;
+  }
+
+  &:focus {
+    @apply focus:border-indigo-500 focus:ring-indigo-500;
   }
 
   &:disabled {

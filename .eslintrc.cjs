@@ -38,7 +38,9 @@ module.exports = {
           'receipt',
           'dashboard',
           'new',
-          'home'
+          'home',
+          'edit',
+          'view'
         ]
       }
     ]

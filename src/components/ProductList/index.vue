@@ -86,22 +86,24 @@ defineProps<{
                 <td
                   class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
                 >
-                  <router-link
-                    class="text-indigo-600 hover:text-indigo-900"
-                    :to="{
-                      name: 'product.edit',
-                      params: { productId: product.$id }
-                    }"
-                    >Edit</router-link
-                  >
-                  <router-link
-                    class="text-indigo-600 hover:text-indigo-900"
-                    :to="{
-                      name: 'product.detail',
-                      params: { productId: product.$id }
-                    }"
-                    >View</router-link
-                  >
+                  <div class="flex items-center justify-between">
+                    <router-link
+                      class="text-indigo-600 hover:text-indigo-900"
+                      :to="{
+                        name: 'product.edit',
+                        params: { productId: product.$id }
+                      }"
+                      ><i class="fas fa-edit"></i
+                    ></router-link>
+                    <router-link
+                      class="text-indigo-600 hover:text-indigo-900"
+                      :to="{
+                        name: 'product.detail',
+                        params: { productId: product.$id }
+                      }"
+                      ><i class="fas fa-eye"></i
+                    ></router-link>
+                  </div>
                 </td>
               </tr>
             </tbody>

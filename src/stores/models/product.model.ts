@@ -1,5 +1,6 @@
 export interface Product {
   name: string
+  $id?: string
   brand?: string
   quantity: number
   price: number

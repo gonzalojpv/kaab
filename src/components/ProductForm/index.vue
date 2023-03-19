@@ -106,6 +106,11 @@ const onSubmit = async () => {
   console.log('onSubmit')
 }
 
+const setAltImg = (event: Event) => {
+  const target = event.target as HTMLImageElement
+  target.src = 'https://via.placeholder.com/192x288.png'
+}
+
 onMounted(() => {
   brandStore.fetchBrands()
   setValueToForm()
@@ -125,6 +130,21 @@ watch(
       <div class="mt-10 pt-10">
         <h2 class="text-lg font-medium text-gray-900">Product information</h2>
         <div class="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
+          <div class="flex justify-between sm:col-span-2">
+            <div class="mt-8 lg:mt-0">
+              <img
+                :src="form.photo"
+                alt="New Product"
+                class="rounded-lg"
+                @error="setAltImg"
+              />
+            </div>
+            <!-- BarCode -->
+            <div v-if="form.barCode" class="text-center">
+              <BarcodeGenerator :value="form.barCode" />
+            </div>
+            <!-- /.BarCode -->
+          </div>
           <!-- Name -->
           <div>
             <label for="first-name" class="form-label">Name</label>
@@ -151,11 +171,6 @@ watch(
             </div>
           </div>
           <!-- /.Name -->
-          <!-- BarCode -->
-          <div v-if="form.barCode" class="text-center">
-            <BarcodeGenerator :value="form.barCode" />
-          </div>
-          <!-- /.BarCode -->
           <!-- quantity -->
           <div>
             <label for="quantity" class="form-label">Quantity</label>
@@ -335,18 +350,6 @@ watch(
                 <tr>
                   <th
                     scope="col"
-                    class="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                  >
-                    <dt class="flex">
-                      Precio C.
-                      <span
-                        class="ml-2 inline rounded-full bg-red-600 py-0.5 px-2 text-xs tracking-wide text-gray-50"
-                        >Sin IVA</span
-                      >
-                    </dt>
-                  </th>
-                  <th
-                    scope="col"
                     class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
                     <dt class="flex">
@@ -410,11 +413,6 @@ watch(
               <tbody class="divide-y divide-gray-200 bg-white">
                 <tr>
                   <td
-                    class="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-6"
-                  >
-                    ${{ form.priceWithoutTax }}
-                  </td>
-                  <td
                     class="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900"
                   >
                     ${{ form.priceWithTax }}
@@ -428,7 +426,9 @@ watch(
                     </dd>
                   </td>
                   <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                    <dd class="text-gray-900">${{ form.pricePublicUnitary }}</dd>
+                    <dd class="text-gray-900">
+                      ${{ form.pricePublicUnitary }}
+                    </dd>
                   </td>
                   <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
                     <dd class="text-gray-900">${{ form.pricePublic }}</dd>

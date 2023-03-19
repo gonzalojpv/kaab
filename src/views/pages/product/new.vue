@@ -76,16 +76,26 @@ const onSubmit = async () => {
   if (!v$.value.$invalid) {
     toTry.value = true
     try {
+      if (!form.photo) {
+        form.photo = 'https://via.placeholder.com/192x288.png'
+      }
+
       await product.createProduct({ ...form })
       toTry.value = false
       showNotification({
-        text: 'Created',
+        title: 'Creado!',
+        text: 'El Producto se agrego correctamente.',
         icon: 'success',
         didClose: () => {
           router.push({ name: 'product.list' })
         }
       })
     } catch (error) {
+      showNotification({
+        title: 'Oops!',
+        text: 'Lo sentimos ocurrio un error.',
+        icon: 'error'
+      })
       toTry.value = false
     }
   }
@@ -154,15 +164,20 @@ onMounted(() => {
         :price-public="Number(form.pricePublic)"
         :price-public-unitary="Number(form.pricePublicUnitary)"
       />
+      <div v-if="form.barCode" class="text-center">
+        <BarcodeGenerator :value="form.barCode" />
+      </div>
     </div>
     <div>
       <form class="px-4 sm:px-6 lg:px-8" @submit.prevent="onSubmit">
         <div class="mt-10 pt-10">
-          <h2 class="text-lg font-medium text-gray-900">Product information</h2>
+          <h2 class="text-lg font-medium text-gray-900">
+            Información del producto
+          </h2>
           <div class="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
             <!-- Name -->
             <div>
-              <label for="first-name" class="form-label">Name</label>
+              <label for="first-name" class="form-label">Nombre</label>
               <div class="mt-1">
                 <input
                   id="name"
@@ -186,12 +201,9 @@ onMounted(() => {
               </div>
             </div>
             <!-- /.Name -->
-            <div v-if="form.barCode" class="text-center">
-              <BarcodeGenerator :value="form.barCode" />
-            </div>
             <!-- quantity -->
             <div>
-              <label for="quantity" class="form-label">Quantity</label>
+              <label for="quantity" class="form-label">Cantidad</label>
               <div class="mt-1">
                 <input
                   id="quantity"
@@ -218,9 +230,7 @@ onMounted(() => {
             <!-- /.quantity -->
             <!-- priceWithoutTax -->
             <div>
-              <label for="last-name" class="form-label"
-                >Price without Tax</label
-              >
+              <label for="last-name" class="form-label">Precio sin IVA</label>
               <div class="mt-1">
                 <input
                   id="price"
@@ -247,7 +257,7 @@ onMounted(() => {
             <!-- /.priceWithoutTax -->
             <!-- revenue -->
             <div>
-              <label for="price" class="form-label">revenue</label>
+              <label for="price" class="form-label">Ganancia</label>
               <div class="mt-1">
                 <input
                   id="price"
@@ -263,7 +273,7 @@ onMounted(() => {
             <!-- /.revenue -->
             <!-- price -->
             <div>
-              <label for="price" class="form-label">price</label>
+              <label for="price" class="form-label">Precio</label>
               <div class="mt-1">
                 <input
                   id="price"
@@ -272,7 +282,6 @@ onMounted(() => {
                   name="price"
                   autocomplete="price"
                   class="form-control"
-                  readonly
                 />
               </div>
             </div>
@@ -303,7 +312,6 @@ onMounted(() => {
                   v-model="form.barCode"
                   type="text"
                   name="bar-code"
-                  readonly
                   autocomplete="bar-code"
                   class="form-control"
                   :class="{ 'is-invalid': v$.barCode.$errors.length }"
@@ -354,7 +362,7 @@ onMounted(() => {
             <!-- /.photo -->
             <!-- Brand -->
             <div>
-              <label for="stock" class="form-label">Brand</label>
+              <label for="stock" class="form-label">Marca</label>
               <div class="mt-1">
                 <vSelect
                   v-model="form.brand"

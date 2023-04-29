@@ -56,9 +56,29 @@ export const useProductStore = defineStore('product', {
         COLLECTION_ID,
         documentId
       )
-      promise.then( (Response) => {
+      return promise.then(
+        (Response) => {
           console.log('fetchProduct', Response) // Success
           this.product = Response as unknown as Product
+          return Response
+        },
+        (Error) => {
+          return Promise.reject(Error.response?.message)
+        }
+      )
+    },
+    async updateProduct(params: Product, documentId: string) {
+      console.log('params', params)
+      const promise = databases.updateDocument(
+        import.meta.env.VITE_APP_DATABASE_ID,
+        COLLECTION_ID,
+        documentId,
+        params
+      )
+
+      return promise.then(
+        (Response) => {
+          console.log('updateProduct', Response) // Success
           return Response
         },
         (Error) => {

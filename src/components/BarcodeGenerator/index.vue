@@ -8,15 +8,17 @@ const props = defineProps<{
 
 const root = ref<HTMLElement | null>(null)
 const generateBarcode = () => {
-  const aux = String(props.value)
-  const divDOM: HTMLElement | null = document.getElementById('info')
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-  svg.setAttribute('jsbarcode-format', 'ean13')
-  svg.setAttribute('jsbarcode-value', aux)
-  svg.className.baseVal = 'barcode'
-  divDOM.appendChild(svg)
+  try {
+    const aux = String(props.value)
+    const divDOM: HTMLElement | null = document.getElementById('info')
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    svg.setAttribute('jsbarcode-format', 'ean13')
+    svg.setAttribute('jsbarcode-value', aux)
+    svg.className.baseVal = 'barcode'
+    divDOM.appendChild(svg)
 
-  JsBarcode('.barcode').init()
+    JsBarcode('.barcode').init()
+  } catch (error) {}
 }
 
 onMounted(() => {
@@ -25,5 +27,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="root" id="info"></div>
+  <div id="info" ref="root"></div>
 </template>

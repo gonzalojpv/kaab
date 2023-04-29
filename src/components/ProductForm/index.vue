@@ -15,8 +15,12 @@ import { storeToRefs } from 'pinia'
 
 interface Props {
   product: Product
+  productId: string
 }
 const props = defineProps<Props>()
+const emit = defineEmits<{
+  (event: 'submit'): void
+}>()
 
 const form: Product = reactive({
   name: '',
@@ -40,7 +44,6 @@ const productStore = useProductStore()
 const brandStore = useBrandStore()
 
 const { getAllBrands } = storeToRefs(brandStore)
-const { showNotification } = useNotification()
 const { calculatePrices } = useProduct()
 
 const toTry = ref<boolean>(false)
@@ -66,7 +69,7 @@ const buttonText = computed(() => {
 
 const v$ = useVuelidate(rules, form)
 
-const handlePrices = () => {
+const handlePrices = (): void => {
   const result = calculatePrices({
     quantity: form.quantity,
     price: form.priceWithoutTax
@@ -96,18 +99,29 @@ const handlePrices = () => {
 }
 
 const setValueToForm = () => {
-  console.log('setValueToForm', form)
-  Object.assign(form, props.product)
-  console.log('setValueToForm:"', form)
+  Object.assign(form, props.product, {
+    $collectionId: undefined,
+    $createdAt: undefined,
+    $databaseId: undefined,
+    $id: undefined
+  })
 }
 
-const onSubmit = async () => {
+const onSubmit = (): void => {
   v$.value.$touch()
-  console.log('onSubmit')
+
+  if (!v$.value.$invalid) {
+    toTry.value = true
+    productStore.updateProduct(form, props.productId).then(() => {
+      toTry.value = false
+      emit('submit')
+    })
+  }
 }
 
-const setAltImg = (event: Event) => {
+const setAltImg = (event: Event): void => {
   const target = event.target as HTMLImageElement
+  console.log('target', target.src)
   target.src = 'https://via.placeholder.com/192x288.png'
 }
 
@@ -128,12 +142,17 @@ watch(
   <div class="px-4 sm:px-6 lg:px-8">
     <form @submit.prevent="onSubmit">
       <div class="mt-10 pt-10">
-        <h2 class="text-lg font-medium text-gray-900">Product information</h2>
+        <h2 class="text-lg font-medium text-gray-900">
+          Información del producto
+        </h2>
         <div class="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
-          <div class="flex justify-between sm:col-span-2">
-            <div class="mt-8 lg:mt-0">
+          <div
+            v-if="props.product?.photo || form.barCode"
+            class="flex justify-between sm:col-span-2"
+          >
+            <div v-if="props.product?.photo" class="mt-8 lg:mt-0">
               <img
-                :src="form.photo"
+                :src="props.product.photo"
                 alt="New Product"
                 class="rounded-lg"
                 @error="setAltImg"
@@ -147,7 +166,7 @@ watch(
           </div>
           <!-- Name -->
           <div>
-            <label for="first-name" class="form-label">Name</label>
+            <label for="first-name" class="form-label">Nombre</label>
             <div class="mt-1">
               <input
                 id="name"
@@ -173,7 +192,7 @@ watch(
           <!-- /.Name -->
           <!-- quantity -->
           <div>
-            <label for="quantity" class="form-label">Quantity</label>
+            <label for="quantity" class="form-label">Cantidad</label>
             <div class="mt-1">
               <input
                 id="quantity"
@@ -200,7 +219,7 @@ watch(
           <!-- /.quantity -->
           <!-- priceWithoutTax -->
           <div>
-            <label for="last-name" class="form-label">Price without Tax</label>
+            <label for="last-name" class="form-label">Precio sin IVA</label>
             <div class="mt-1">
               <input
                 id="price"
@@ -227,7 +246,7 @@ watch(
           <!-- /.priceWithoutTax -->
           <!-- revenue -->
           <div>
-            <label for="price" class="form-label">revenue</label>
+            <label for="price" class="form-label">Ganancia</label>
             <div class="mt-1">
               <input
                 id="price"
@@ -243,7 +262,7 @@ watch(
           <!-- /.revenue -->
           <!-- price -->
           <div>
-            <label for="price" class="form-label">Price</label>
+            <label for="price" class="form-label">Precio</label>
             <div class="mt-1">
               <input
                 id="price"
@@ -301,7 +320,7 @@ watch(
           <!-- /.stock -->
           <!-- photo -->
           <div>
-            <label for="stock" class="form-label">Photo</label>
+            <label for="stock" class="form-label">Foto</label>
             <div class="mt-1">
               <input
                 id="photo"
@@ -316,7 +335,7 @@ watch(
           <!-- /.photo -->
           <!-- Brand -->
           <div>
-            <label for="stock" class="form-label">Brand</label>
+            <label for="stock" class="form-label">Marca</label>
             <div class="mt-1">
               <vSelect
                 v-model="form.brand"
@@ -353,7 +372,7 @@ watch(
                     class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
                     <dt class="flex">
-                      Price C.
+                      Precio C.
                       <span
                         class="ml-2 rounded-full bg-green-600 py-0.5 px-2 text-xs tracking-wide text-gray-50"
                         >Con IVA</span
@@ -377,7 +396,7 @@ watch(
                     class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >
                     <dt class="flex">
-                      Price U.
+                      Precio U.
                       <span
                         class="ml-2 rounded-full bg-green-600 py-0.5 px-2 text-xs tracking-wide text-gray-50"
                         >Con IVA</span

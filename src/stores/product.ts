@@ -1,7 +1,7 @@
 import client from '@/utils/client'
 
 import { defineStore } from 'pinia'
-import { Databases, ID } from 'appwrite'
+import { Databases, ID, Query } from 'appwrite'
 import type { Product } from '@/stores/models/product.model'
 
 const COLLECTION_ID = '6356258a74a9528e87e8'
@@ -68,7 +68,6 @@ export const useProductStore = defineStore('product', {
       )
     },
     async updateProduct(params: Product, documentId: string) {
-      console.log('params', params)
       const promise = databases.updateDocument(
         import.meta.env.VITE_APP_DATABASE_ID,
         COLLECTION_ID,
@@ -82,6 +81,26 @@ export const useProductStore = defineStore('product', {
           return Response
         },
         (Error) => {
+          return Promise.reject(Error.response?.message)
+        }
+      )
+    },
+    async searchProduct(q: string) {
+      console.log('.....>', q)
+      const promise = databases.listDocuments(
+        import.meta.env.VITE_APP_DATABASE_ID,
+        COLLECTION_ID,
+        [Query.search('name', q)]
+      )
+
+      return promise.then(
+        (Response) => {
+          console.log('searchProduct', Response) // Success
+          this.products = Response.documents as unknown as Array<Product>
+          return Response
+        },
+        (Error) => {
+          console.log('Error', Error)
           return Promise.reject(Error.response?.message)
         }
       )

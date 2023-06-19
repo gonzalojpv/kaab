@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import ProductGrid from '@/components/ProductGrid/index.vue'
 
+import { useProductStore } from '@/stores/product'
+import { storeToRefs } from 'pinia'
+
+const productStore = useProductStore()
+
+const { getAllProducts } = storeToRefs(productStore)
+
 const products = [
   {
     id: 1,
@@ -24,7 +31,7 @@ const products = [
 
       <form class="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
         <div>
-          <ProductGrid />
+          <ProductGrid :products="getAllProducts" />
         </div>
 
         <!-- Order summary -->

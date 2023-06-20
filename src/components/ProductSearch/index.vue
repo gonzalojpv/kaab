@@ -17,7 +17,6 @@ const productStore = useProductStore()
 const { getAllProducts } = storeToRefs(productStore)
 
 const onSubmit = async () => {
-  console.log('.....', form.q)
   if (form.q) {
     await productStore.searchProduct(form.q)
     emit('submit', getAllProducts)

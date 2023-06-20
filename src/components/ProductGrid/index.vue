@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import useCheckout from '@/composables/checkout'
+
 import type { Product } from '@/stores/models/product.model'
+import { setAltImgOnError } from '@/utils'
 
 interface Props {
   products: Array<Product>
@@ -9,10 +12,11 @@ withDefaults(defineProps<Props>(), {
   products: () => []
 })
 
-const setAltImg = (event: Event) => {
-  const target = event.target as HTMLImageElement
-  target.src = 'https://via.placeholder.com/192x288.png'
+const defaultOrder = {
+  quantity: 1
 }
+
+const { addItem } = useCheckout()
 </script>
 
 <template>
@@ -28,9 +32,20 @@ const setAltImg = (event: Event) => {
           :key="product.$id"
           :href="product.link"
           class="group text-sm"
+          role="button"
+          @click="
+            addItem({
+              ...defaultOrder,
+              id: product.code,
+              name: product.name,
+              price: product.price,
+              amount: product.price,
+              photo: product.photo
+            })
+          "
         >
           <div
-            class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75"
+            class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-100 hover:shadow group-hover:opacity-75"
           >
             <img
               :src="
@@ -40,7 +55,7 @@ const setAltImg = (event: Event) => {
               "
               :alt="product.name"
               class="h-full w-full object-cover object-center"
-              @error="setAltImg"
+              @error="setAltImgOnError"
             />
           </div>
           <h3 class="mt-4 font-medium text-gray-900">{{ product.name }}</h3>

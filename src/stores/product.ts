@@ -58,7 +58,6 @@ export const useProductStore = defineStore('product', {
       )
       return promise.then(
         (Response) => {
-          console.log('fetchProduct', Response) // Success
           this.product = Response as unknown as Product
           return Response
         },
@@ -77,7 +76,6 @@ export const useProductStore = defineStore('product', {
 
       return promise.then(
         (Response) => {
-          console.log('updateProduct', Response) // Success
           return Response
         },
         (Error) => {
@@ -86,7 +84,6 @@ export const useProductStore = defineStore('product', {
       )
     },
     async searchProduct(q: string) {
-      console.log('.....>', q)
       const promise = databases.listDocuments(
         import.meta.env.VITE_APP_DATABASE_ID,
         COLLECTION_ID,
@@ -95,12 +92,10 @@ export const useProductStore = defineStore('product', {
 
       return promise.then(
         (Response) => {
-          console.log('searchProduct', Response) // Success
           this.products = Response.documents as unknown as Array<Product>
           return Response
         },
         (Error) => {
-          console.log('Error', Error)
           return Promise.reject(Error.response?.message)
         }
       )

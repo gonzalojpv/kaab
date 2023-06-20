@@ -121,7 +121,6 @@ const onSubmit = (): void => {
 
 const setAltImg = (event: Event): void => {
   const target = event.target as HTMLImageElement
-  console.log('target', target.src)
   target.src = 'https://via.placeholder.com/192x288.png'
 }
 

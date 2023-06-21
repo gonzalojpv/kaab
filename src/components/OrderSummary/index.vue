@@ -19,7 +19,8 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const { getTotal, updateQuantityItem, removeItem } = useCheckout()
+const { getTotal, updateQuantityItem, removeItem, onSubmitCheckout } =
+  useCheckout()
 
 const paymentAmount = ref<number>(0)
 
@@ -49,7 +50,7 @@ watch(
       <ul role="list" class="divide-y divide-gray-200">
         <li
           v-for="product in products"
-          :key="product.id"
+          :key="String(product.id)"
           class="flex py-6 px-4 sm:px-6"
         >
           <div class="flex-shrink-0">
@@ -70,7 +71,7 @@ watch(
               <div class="min-w-0 flex-1">
                 <h4 class="text-sm">
                   <a
-                    :href="product.href"
+                    :href="'#'"
                     class="font-medium text-gray-700 hover:text-gray-800"
                     >{{ product.name }}</a
                   >
@@ -81,7 +82,7 @@ watch(
                 <button
                   type="button"
                   class="-m-2.5 flex items-center justify-center bg-white p-2.5 text-gray-400 hover:text-gray-500"
-                  @click="removeItem(product.id)"
+                  @click="removeItem(String(product.id))"
                 >
                   <span class="sr-only">Remove</span>
                   <!-- <TrashIcon class="h-5 w-5" aria-hidden="true" /> -->
@@ -140,8 +141,9 @@ watch(
 
       <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
         <button
-          type="submit"
+          type="button"
           class="w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+          @click="onSubmitCheckout"
         >
           Pagar
         </button>

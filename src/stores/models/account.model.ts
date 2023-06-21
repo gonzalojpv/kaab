@@ -1,3 +1,8 @@
 export interface AccountState {
-  user: object | null
+  $id: string
+  name: string
+  phone: string
+  email: string
+  status: boolean
+  emailVerification: boolean
 }

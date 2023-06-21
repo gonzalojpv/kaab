@@ -1,7 +1,12 @@
-import { useCheckoutStore } from '@/stores/checkout'
-import { computed } from 'vue'
+import dayjs from 'dayjs'
 
 import _ from 'lodash-es'
+
+import { useCheckoutStore } from '@/stores/checkout'
+import { useOrderStore } from '@/stores/order'
+import { useAccountStore } from '@/stores/account'
+import { useItemStore } from '@/stores/item'
+import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 
 interface OrderItem {
@@ -15,8 +20,12 @@ interface OrderItem {
 
 export default function useCheckout() {
   const checkoutStore = useCheckoutStore()
+  const orderStore = useOrderStore()
+  const accountStore = useAccountStore()
+  const itemStore = useItemStore()
 
   const { getOrder } = storeToRefs(checkoutStore)
+  const { getCurrentUser } = storeToRefs(accountStore)
 
   const addItem = (item: OrderItem) => {
     const existItem = _.find(getOrder.value, ['id', item.id])
@@ -64,10 +73,36 @@ export default function useCheckout() {
     return _.sumBy(getOrder.value, 'amount')
   })
 
+  const onSubmitCheckout = async () => {
+    if (getOrder.value.length) {
+      const responseOrder = await orderStore.createOrder({
+        amount: getTotal.value,
+        employeeId: String(getCurrentUser.value?.$id),
+        createAt: dayjs().format()
+      })
+      // create items
+      console.log('responseOrder', responseOrder)
+      const allItemsPromise: Promise<string | unknown>[] = getOrder.value.map(
+        (item) => {
+          return itemStore.createItem({
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            amount: item.amount,
+            orderId: responseOrder.$id
+          })
+        }
+      )
+
+      await Promise.all(allItemsPromise)
+    }
+  }
+
   return {
     addItem,
     removeItem,
     getTotal,
-    updateQuantityItem
+    updateQuantityItem,
+    onSubmitCheckout
   }
 }

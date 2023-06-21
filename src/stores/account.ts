@@ -5,10 +5,9 @@ import { defineStore } from 'pinia'
 import { Account } from 'appwrite'
 
 export const useAccountStore = defineStore('account', {
-  state: () =>
-    ({
-      user: null
-    } as AccountState),
+  state: () => ({
+    user: {} as AccountState
+  }),
   getters: {
     getCurrentUser: (state) => state.user
   },
@@ -21,7 +20,7 @@ export const useAccountStore = defineStore('account', {
       return promise.then(
         (Response) => {
           this.user = Response
-          return Response
+          return Response as AccountState
         },
         (Error) => {
           return Promise.reject(Error.response?.message)

@@ -2,6 +2,7 @@
 import useCheckout from '@/composables/checkout'
 
 import { setAltImgOnError } from '@/utils/index'
+import { ref, computed, watch } from 'vue'
 
 type Order = {
   id: string | unknown
@@ -16,9 +17,28 @@ interface Props {
   products: Array<Order>
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
 
 const { getTotal, updateQuantityItem, removeItem } = useCheckout()
+
+const paymentAmount = ref<number>(0)
+
+const getReturnAmount = computed(() => {
+  if (paymentAmount.value && paymentAmount.value > getTotal.value) {
+    return paymentAmount.value - getTotal.value
+  }
+
+  return 0
+})
+
+watch(
+  () => props.products,
+  (newProducts: Array<Order>) => {
+    if (!newProducts.length) {
+      paymentAmount.value = 0
+    }
+  }
+)
 </script>
 <template>
   <div class="mt-10 lg:mt-0">
@@ -84,7 +104,7 @@ const { getTotal, updateQuantityItem, removeItem } = useCheckout()
                   class="rounded-md border border-gray-300 text-left text-base font-medium text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
                   name="quantity"
                   min="0"
-                  @input="(value) => updateQuantityItem(value, product.id)"
+                  @input="(value: Event) => updateQuantityItem(value, product.id)"
                 />
               </div>
             </div>
@@ -95,7 +115,25 @@ const { getTotal, updateQuantityItem, removeItem } = useCheckout()
         <div class="flex items-center justify-between pt-6">
           <dt class="text-base font-medium">Total</dt>
           <dd class="text-base font-medium text-gray-900">
-            ${{ $filters.formatMoney(getTotal) }}
+            ${{ $filters.formatMoney(getTotal, 2) }}
+          </dd>
+        </div>
+        <div
+          v-if="products.length"
+          class="flex items-center justify-between pt-6"
+        >
+          <dt class="text-base font-medium">Recibo</dt>
+          <dd class="text-base font-medium text-gray-900">
+            <input v-model="paymentAmount" type="text" class="form-control" />
+          </dd>
+        </div>
+        <div
+          v-if="products.length && getReturnAmount"
+          class="flex items-center justify-between pt-6"
+        >
+          <dt class="text-base font-medium">Cambio</dt>
+          <dd class="text-base font-medium text-gray-900">
+            ${{ $filters.formatMoney(getReturnAmount, 2) }}
           </dd>
         </div>
       </dl>

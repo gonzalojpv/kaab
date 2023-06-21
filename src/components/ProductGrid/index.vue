@@ -36,7 +36,7 @@ const { addItem } = useCheckout()
           @click="
             addItem({
               ...defaultOrder,
-              id: product.code,
+              id: product.$id,
               name: product.name,
               price: product.price,
               amount: product.price,
@@ -60,7 +60,9 @@ const { addItem } = useCheckout()
           </div>
           <h3 class="mt-4 font-medium text-gray-900">{{ product.name }}</h3>
           <p class="italic text-gray-500">{{ product.stock }}</p>
-          <p class="mt-2 font-medium text-gray-900">{{ product.price }}</p>
+          <p class="mt-2 font-medium text-gray-900">
+            ${{ $filters.formatMoney(product.price, 2) }}
+          </p>
         </a>
       </div>
     </div>

@@ -1,40 +1,22 @@
 <script setup lang="ts">
-const products = [
-  {
-    id: 1,
-    name: 'Nomad Pouch',
-    href: '#',
-    price: '$50',
-    availability: 'White and Black',
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/category-page-07-product-01.jpg',
-    imageAlt:
-      'White fabric pouch with white zipper, black zipper pull, and black elastic loop.'
-  },
-  {
-    id: 2,
-    name: 'Zip Tote Basket',
-    href: '#',
-    price: '$140',
-    availability: 'Washed Black',
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/category-page-07-product-02.jpg',
-    imageAlt:
-      'Front of tote bag with washed black canvas body, black straps, and tan leather handles and accents.'
-  },
-  {
-    id: 3,
-    name: 'Medium Stuff Satchel',
-    href: '#',
-    price: '$220',
-    availability: 'Blue',
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/category-page-07-product-03.jpg',
-    imageAlt:
-      'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.'
-  }
-  // More products...
-]
+import useCheckout from '@/composables/checkout'
+
+import type { Product } from '@/stores/models/product.model'
+import { setAltImgOnError } from '@/utils'
+
+interface Props {
+  products: Array<Product>
+}
+
+withDefaults(defineProps<Props>(), {
+  products: () => []
+})
+
+const defaultOrder = {
+  quantity: 1
+}
+
+const { addItem } = useCheckout()
 </script>
 
 <template>
@@ -47,22 +29,40 @@ const products = [
       >
         <a
           v-for="product in products"
-          :key="product.id"
-          :href="product.href"
+          :key="product.$id"
+          :href="product.link"
           class="group text-sm"
+          role="button"
+          @click="
+            addItem({
+              ...defaultOrder,
+              id: product.$id,
+              name: product.name,
+              price: product.price,
+              amount: product.price,
+              photo: product.photo
+            })
+          "
         >
           <div
-            class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75"
+            class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-100 hover:shadow group-hover:opacity-75"
           >
             <img
-              :src="product.imageSrc"
-              :alt="product.imageAlt"
+              :src="
+                product.photo
+                  ? product.photo
+                  : 'https://via.placeholder.com/192x288.png'
+              "
+              :alt="product.name"
               class="h-full w-full object-cover object-center"
+              @error="setAltImgOnError"
             />
           </div>
           <h3 class="mt-4 font-medium text-gray-900">{{ product.name }}</h3>
-          <p class="italic text-gray-500">{{ product.availability }}</p>
-          <p class="mt-2 font-medium text-gray-900">{{ product.price }}</p>
+          <p class="italic text-gray-500">{{ product.stock }}</p>
+          <p class="mt-2 font-medium text-gray-900">
+            ${{ $filters.formatMoney(product.price, 2) }}
+          </p>
         </a>
       </div>
     </div>

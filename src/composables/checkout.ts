@@ -1,12 +1,12 @@
 import dayjs from 'dayjs'
-
+import useNotification from '@/composables/notification'
 import _ from 'lodash-es'
 
 import { useCheckoutStore } from '@/stores/checkout'
 import { useOrderStore } from '@/stores/order'
 import { useAccountStore } from '@/stores/account'
 import { useItemStore } from '@/stores/item'
-import { computed } from 'vue'
+import { computed, ref, readonly } from 'vue'
 import { storeToRefs } from 'pinia'
 
 interface OrderItem {
@@ -26,6 +26,9 @@ export default function useCheckout() {
 
   const { getOrder } = storeToRefs(checkoutStore)
   const { getCurrentUser } = storeToRefs(accountStore)
+  const { showNotification } = useNotification()
+
+  const tryTo = ref(false)
 
   const addItem = (item: OrderItem) => {
     const existItem = _.find(getOrder.value, ['id', item.id])
@@ -74,13 +77,13 @@ export default function useCheckout() {
   })
 
   const onSubmitCheckout = async () => {
+    tryTo.value = true
     if (getOrder.value.length) {
       const responseOrder = await orderStore.createOrder({
         amount: getTotal.value,
         employeeId: String(getCurrentUser.value?.$id),
         createAt: dayjs().format()
       })
-      // create items
       console.log('responseOrder', responseOrder)
       const allItemsPromise: Promise<string | unknown>[] = getOrder.value.map(
         (item) => {
@@ -96,6 +99,16 @@ export default function useCheckout() {
 
       await Promise.all(allItemsPromise)
     }
+
+    showNotification({
+      title: `Total: $${getTotal.value}`,
+      text: `Cambio: $`,
+      icon: 'success',
+      didClose: () => {
+        tryTo.value = false
+        checkoutStore.reset()
+      }
+    })
   }
 
   return {
@@ -103,6 +116,7 @@ export default function useCheckout() {
     removeItem,
     getTotal,
     updateQuantityItem,
-    onSubmitCheckout
+    onSubmitCheckout,
+    tryTo: readonly(tryTo)
   }
 }

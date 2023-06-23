@@ -19,7 +19,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const { getTotal, updateQuantityItem, removeItem, onSubmitCheckout } =
+const { getTotal, updateQuantityItem, removeItem, onSubmitCheckout, tryTo } =
   useCheckout()
 
 const paymentAmount = ref<number>(0)
@@ -139,10 +139,14 @@ watch(
         </div>
       </dl>
 
-      <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
+      <div
+        v-if="products.length"
+        class="border-t border-gray-200 py-6 px-4 sm:px-6"
+      >
         <button
           type="button"
           class="w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+          :disabled="tryTo"
           @click="onSubmitCheckout"
         >
           Pagar

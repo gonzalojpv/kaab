@@ -22,6 +22,9 @@ export const useCheckoutStore = defineStore('check', {
     },
     update(items: Order[]) {
       this.items = items
+    },
+    reset() {
+      this.items = []
     }
   }
 })
